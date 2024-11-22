@@ -1,45 +1,57 @@
-"use client";
+import React from "react";
 
-import Navbar from "../components/Navbar/Navbar";
-import SideNavbar from "../components/SideNavbar/SideNavbar";
-import Footer from "../components/Footer/Footer";
+import Image from "next/image"; // Import the Image component
 
-const Home = () => {
+export default function Home() {
   return (
-    <div className="flex h-screen">
-      {/* Side Navbar */}
-      <SideNavbar />
+    <main>
+      <section className="p-16 text-center bg-gray-100">
+        <h1 className="text-4xl font-bold">Welcome to Our Platform</h1>
+        <p className="text-lg mt-4">Analyze  with confidence.</p>
+      </section>
+      <section className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white shadow-md p-4 rounded-lg">
+          <h2 className="text-xl font-bold">Objectives and About The Project</h2>
+          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            Natus beatae veritatis, recusandae officia quis odio. Blanditiis recusandae ab error provident praesentium.
+            Excepturi magni nam in aliquid eos dignissimos vitae et! 1. Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+             Unde vel doloribus, quisquam ipsa laboriosam molestias sed excepturi dicta aspernatur, 
+            illum quos, saepe sapiente quod fuga deleniti ducimus! Deserunt, porro tempore.</p>
+        </div>
+        <div className="bg-white shadow-lg rounded-lg p-6 md:p-8 lg:p-10 text-left max-w-sm md:max-w-md lg:max-w-lg mx-auto">
+          <h2 className="text-xl font-semibold mb-4 text-left">
+            Picture Of Award Winning
+          </h2>
+          <Image
+            src="/images/Award.jpeg"
+            alt="Award"
+            width={350}
+            height={350}
+            className="mx-auto  mb-6"
+          />
+        </div>
+      </section>
+      <section className="p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-white shadow-md p-4 rounded-lg">
+          <h2 className="text-xl font-bold">Vision</h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vero rem ipsum sit.
+            Quisquam illo explicabo aut voluptas, rerum laboriosam corporis amet vero veritatis adipisci.
+            Quaerat illo magni velit voluptate.</p>
+        </div>
+        <div className="bg-white shadow-md p-4 rounded-lg">
+          <h2 className="text-xl font-bold">Mission</h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem vero rem ipsum sit.
+            Quisquam illo explicabo aut voluptas, rerum laboriosam corporis amet vero veritatis adipisci.
+            Quaerat illo magni velit voluptate.</p>
+        </div>
+        <div className="bg-white shadow-md p-4 rounded-lg">
+          <h2 className="text-xl font-bold">Service We Provide</h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Tempora hic nobis odio magnam quam cumque sunt facilis, earum vel et non, excepturi ullam rerum quod quasi corporis.
+            Quasi, doloremque illum!</p>
+        </div>
+      </section>
 
-      <div className="flex-1 flex flex-col">
-        {/* Fixed Navbar */}
-        <Navbar />
-
-        <main className="p-6 bg-gray-50 flex-1 mt-16">
-          <section className="bg-gray-800 text-white text-center p-8 rounded-lg shadow-md mb-6">
-            <h1 className="text-4xl font-bold mb-4">Welcome to My App</h1>
-            <p className="text-lg">
-              Discover amazing features and insights to help you!
-            </p>
-          </section>
-
-          <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-              Feature 1
-            </div>
-            <div className="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-              Feature 2
-            </div>
-            <div className="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-              Feature 3
-            </div>
-          </section>
-        </main>
-
-        {/* Footer */}
-        <Footer />
-      </div>
-    </div>
+    </main>
   );
-};
-
-export default Home;
+}

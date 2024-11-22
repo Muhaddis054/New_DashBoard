@@ -1,45 +1,84 @@
-import Navbar from '../../components/Navbar/Navbar';
-import SideNavbar from '../../components/SideNavbar/SideNavbar';
-import Footer from '../../components/Footer/Footer';
+import React from "react";
+import Image from "next/image"; // Import the Image component
+
+export default function About() {
+  return (
+    <main>
+      <section className="p-16 text-center bg-gray-50 dark:bg-gray-800">
+        <h1 className="text-4xl font-bold">About Us</h1>
+        <p className="text-lg mt-4">Analyze with confidence.</p>
+      </section>
 
 
-const About = () => {
-    return (
-    <div className="flex h-screen">
-
-      <SideNavbar />
-
-      <div className="flex-1 flex flex-col">
-        <Navbar  />
-      
-        <main className="p-6 bg-gray-50 flex-1 mt-16">
-          {/* Hero Section */}
-          <section className="bg-gray-800 text-white text-center p-8 rounded-lg shadow-md mb-6">
-            <h1 className="text-4xl font-bold mb-4">About Us Of My Projrect</h1>
-            <p className="text-lg">
-              Discover amazing features and insights to help you!
+      {/* Team Section */}
+      <section className="p-8 bg-gray-100 dark:bg-gray-700">
+        <h2 className="text-3xl font-bold text-center mb-8">Meet Our Team</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {/* Team Member 1 */}
+          <div className="bg-white shadow-lg rounded-lg p-6 text-center">
+            <Image
+              src="/images/picture-1.jpeg"
+              alt="Team Member"
+              width={150}
+              height={150}
+              className="mx-auto rounded-full mb-4"
+            />
+            <h3 className="text-xl font-semibold">John Doe</h3>
+            <p className="text-gray-500">CEO</p>
+            <p className="text-sm text-gray-600 mt-4">
+              John is the visionary behind our company and leads the team with great expertise.
             </p>
-          </section>
+          </div>
 
-          {/* Feature Section */}
-          <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-              Feature 1
-            </div>
-            <div className="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-              Feature 2
-            </div>
-            <div className="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-              Feature 3
-            </div>
-          </section>
-        </main>
+          {/* Team Member 2 */}
+          <div className="bg-white shadow-lg rounded-lg p-6 text-center">
+            <Image
+              src="/images/picture-2.jpeg"
+              alt="Team Member"
+              width={150}
+              height={150}
+              className="mx-auto rounded-full mb-4"
+            />
+            <h3 className="text-xl font-semibold">Jane Smith</h3>
+            <p className="text-gray-500">CTO</p>
+            <p className="text-sm text-gray-600 mt-4">
+              Jane oversees all technical operations and ensures the highest quality in our work.
+            </p>
+          </div>
 
-        {/* Footer */}
-        <Footer />
-      </div>
-    </div>
+          {/* Team Member 3 */}
+          <div className="bg-white shadow-lg rounded-lg p-6 text-center">
+            <Image
+              src="/images/picture-3.jpeg"
+              alt="Team Member"
+              width={150}
+              height={150}
+              className="mx-auto rounded-full mb-4"
+            />
+            <h3 className="text-xl font-semibold">Alice Johnson</h3>
+            <p className="text-gray-500">Lead Developer</p>
+            <p className="text-sm text-gray-600 mt-4">
+              Alice is our lead developer, ensuring smooth development processes and code quality.
+            </p>
+          </div>
+
+          {/* Team Member 4 */}
+          <div className="bg-white shadow-lg rounded-lg p-6 text-center">
+            <Image
+              src="/images/picture-4.jpeg"
+              alt="Team Member"
+              width={150}
+              height={150}
+              className="mx-auto rounded-full mb-4"
+            />
+            <h3 className="text-xl font-semibold">Bob Brown</h3>
+            <p className="text-gray-500">Product Manager</p>
+            <p className="text-sm text-gray-600 mt-4">
+              Bob manages our product vision and helps bring ideas to life with his team.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
   );
-};
-
-export default About;
+}
