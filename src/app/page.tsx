@@ -5,7 +5,7 @@ import Image from "next/image"; // Import the Image component
 export default function Home() {
   return (
     <main>
-      <section className="p-16 text-center bg-gray-100">
+      <section className="p-10 text-center bg-gray-50">
         <h1 className="text-4xl font-bold">Welcome to Our Platform</h1>
         <p className="text-lg mt-4">Analyze  with confidence.</p>
       </section>

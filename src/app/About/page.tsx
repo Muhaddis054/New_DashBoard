@@ -4,14 +4,15 @@ import Image from "next/image"; // Import the Image component
 export default function About() {
   return (
     <main>
-      <section className="p-16 text-center bg-gray-50 dark:bg-gray-800">
+      <section className="p-16 text-center bg-gray-50 ">
         <h1 className="text-4xl font-bold">About Us</h1>
         <p className="text-lg mt-4">Analyze with confidence.</p>
       </section>
 
 
+
       {/* Team Section */}
-      <section className="p-8 bg-gray-100 dark:bg-gray-700">
+      <section className="p-8 bg-gray-100">
         <h2 className="text-3xl font-bold text-center mb-8">Meet Our Team</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {/* Team Member 1 */}

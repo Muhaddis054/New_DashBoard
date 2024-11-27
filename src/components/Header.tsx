@@ -15,18 +15,18 @@ export default function Navbar() {
 
   return (
     <nav className="flex justify-between items-center p-6 bg-gray-800 shadow-md w-full">
-      {/* Logo */}
-      <h1 className="text-xl sm:text-4xl font-bold text-white flex justify-between items-center flex-grow">
-        Investment Risk Analysis
-      </h1>
-
       {/* Mobile Hamburger Menu Icon */}
       <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="lg:hidden text-white text-2xl"  // Show for screens smaller than lg
+        className="lg:hidden text-white text-2xl fixed top-6 right-6"  // Positioned above "Home"
       >
-        {isMobileMenuOpen ? <FaBars /> : <FaBars />} {/* Show either the close or open menu icon */}
+        {isMobileMenuOpen ? <FaBars /> : <FaBars />} {/* Show the open/close icon */}
       </button>
+
+      {/* Logo */}
+      <h1 className="text-xl sm:text-4xl font-bold text-white flex justify-between items-center flex-grow text-center">
+        Investment Risk Analysis
+      </h1>
 
       {/* Desktop Navbar links */}
       <div className="hidden lg:flex space-x-6"> {/* Show only on screens large and up */}
@@ -47,7 +47,7 @@ export default function Navbar() {
       {/* Mobile Navbar links */}
       <div
         className={`${isMobileMenuOpen ? "block" : "hidden"
-          } lg:hidden bg-gray-700 p-4 space-y-4 mt-4 w-full`}  // Only show on small screens
+          } lg:hidden p-4 space-y-4 mt-4 w-full`}  // Only show on small screens
       >
         <Link
           href="/"
