@@ -1,6 +1,6 @@
 "use client";
 import "../styles/globals.css";
-import Head from 'next/head';
+import Head from "next/head";
 import Navbar from "@/components/Header";
 import SideNavbar from "@/components/SideNavbar";
 import Footer from "@/components/Footer";
@@ -12,7 +12,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-       <Head>
+      <Head>
         <meta charSet="UTF-8" />
         <title>NRPU</title>
         <link rel="icon" href="/favicon.ico" />
@@ -20,10 +20,10 @@ export default function RootLayout({
       <body className="flex flex-col min-h-screen">
         <div className="flex flex-1">
           <SideNavbar />
-          <div className="flex-1">
+          <div className="flex flex-col flex-1">
             <Navbar />
-            {children}
-        <Footer />
+            <main className="flex-grow">{children}</main>
+            <Footer />
           </div>
         </div>
       </body>

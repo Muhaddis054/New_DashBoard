@@ -2,7 +2,19 @@
 
 import React, { useState } from "react";
 
-const FinancialStatementIndicatorData = [
+type SubSubIndicator = string;
+
+interface SubIndicator {
+  subIndicator: string;
+  subSubIndicators: SubSubIndicator[];
+}
+
+interface Indicator {
+  indicator: string;
+  subIndicators: SubIndicator[];
+}
+
+const FinancialStatementIndicatorData : Indicator[]= [
   {
     indicator: "Non-Current Assets",
     subIndicators: [
@@ -237,18 +249,25 @@ const FinancialStatementIndicatorData = [
   },
 ];
 
+
 function FinancialStatementIndicatorSelection() {
-  const [selectedIndicator, setSelectedIndicator] = useState("");
-  const [selectedSubIndicator, setSelectedSubIndicator] = useState("");
+  const [selectedIndicator, setSelectedIndicator] = useState<string>("");
+  const [selectedSubIndicator, setSelectedSubIndicator] = useState<string>("");
+  const [selectedSubSubIndicator, setSelectedSubSubIndicator] = useState<string>("");
 
-  // Filter data dynamically
+  // Get sub-indicators based on the selected indicator
   const subIndicators =
-    FinancialStatementIndicatorData.find((item) => item.indicator === selectedIndicator)
-      ?.subIndicators || [];
+    FinancialStatementIndicatorData.find((item) => item.indicator === selectedIndicator)?.subIndicators || [];
 
+  // Get sub-sub-indicators based on the selected sub-indicator
   const subSubIndicators =
-    subIndicators.find((item) => item.subIndicator === selectedSubIndicator)
-      ?.subSubIndicators || [];
+    subIndicators.find((item) => item.subIndicator === selectedSubIndicator)?.subSubIndicators || [];
+
+  // Reset sub-sub-indicator when sub-indicator changes
+  const handleSubIndicatorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedSubIndicator(e.target.value);
+    setSelectedSubSubIndicator(""); // Reset sub-sub-indicator when sub-indicator changes
+  };
 
   return (
     <div className="flex flex-wrap gap-4 p-4">
@@ -258,7 +277,8 @@ function FinancialStatementIndicatorSelection() {
         value={selectedIndicator}
         onChange={(e) => {
           setSelectedIndicator(e.target.value);
-          setSelectedSubIndicator(""); // Reset sub-indicator on indicator change
+          setSelectedSubIndicator(""); // Reset sub-indicator when indicator changes
+          setSelectedSubSubIndicator(""); // Reset sub-sub-indicator when indicator changes
         }}
       >
         <option value="">Select Indicator</option>
@@ -273,7 +293,7 @@ function FinancialStatementIndicatorSelection() {
       <select
         className="flex-1 p-2 border rounded-md"
         value={selectedSubIndicator}
-        onChange={(e) => setSelectedSubIndicator(e.target.value)}
+        onChange={handleSubIndicatorChange}
         disabled={!selectedIndicator}
       >
         <option value="">Select Sub Indicator</option>
@@ -288,6 +308,8 @@ function FinancialStatementIndicatorSelection() {
       {subSubIndicators.length > 0 && (
         <select
           className="flex-1 p-2 border rounded-md"
+          value={selectedSubSubIndicator}
+          onChange={(e) => setSelectedSubSubIndicator(e.target.value)}
           disabled={!selectedSubIndicator}
         >
           <option value="">Select Sub Sub Indicator</option>

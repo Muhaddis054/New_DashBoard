@@ -1,6 +1,7 @@
 
   
   export const EconomicIndicators: string[] = [
+    "All",
     "Poverty headcount ",
     "Unemployment Rate",
     "GDP per capita (constant 2015 US$)",
