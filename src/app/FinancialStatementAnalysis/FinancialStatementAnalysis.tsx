@@ -26,11 +26,28 @@ ChartJS.register(
   Legend
 );
 
+// Define types for the fetched data and chart data
+type FinancialData = {
+  year: string;
+  [key: string]: number | string; // Other financial indicators can be dynamically added
+};
+
+type ChartData = {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    fill: boolean;
+    borderColor: string;
+    tension: number;
+  }[];
+};
+
 function FinancialStatement() {
   const [sector, setSector] = useState<string>(""); // Selected sector
   const [indicator, setIndicator] = useState<string>(""); // Selected financial indicator
   const [selectedYear, setSelectedYear] = useState<string>(""); // Selected year
-  const [data, setData] = useState<any>(null); // Fetched data
+  const [data, setData] = useState<FinancialData[] | null>(null); // Fetched data
   const [loading, setLoading] = useState(false); // Loading state
   const [error, setError] = useState<string | null>(null); // Error state
   const [availableYears, setAvailableYears] = useState<string[]>([]); // Available years for selection
@@ -79,7 +96,7 @@ function FinancialStatement() {
         throw new Error("Failed to fetch data");
       }
       const result = await response.json();
-      setData(result.data); // Assuming the API returns 'data' array
+      setData(result.data); // Assuming the API returns 'data' array of FinancialData
     } catch (err: any) {
       setError(err.message || "An unexpected error occurred.");
     } finally {
@@ -88,31 +105,32 @@ function FinancialStatement() {
   }
 
   // Prepare the data for the chart
-  const chartData = data && Array.isArray(data) && data.length > 0
-    ? {
-        labels: data.map((item: any) => item.year), // X-axis: Years
-        datasets: [
-          {
-            label: indicator,
-            data: data.map((item: any) => item[indicator] ?? 0), // Y-axis data for the selected indicator
-            fill: false,
-            borderColor: "rgba(75, 192, 192, 1)",
-            tension: 0.1,
-          },
-        ],
-      }
-    : null;
+  const chartData: ChartData | null =
+    data && Array.isArray(data) && data.length > 0
+      ? {
+          labels: data.map((item) => item.year), // X-axis: Years
+          datasets: [
+            {
+              label: indicator,
+              data: data.map((item) => item[indicator] ?? 0), // Y-axis data for the selected indicator
+              fill: false,
+              borderColor: "rgba(75, 192, 192, 1)",
+              tension: 0.1,
+            },
+          ],
+        }
+      : null;
 
   return (
     <div className="p-8">
       <h1 className="text-4xl font-bold mb-6 text-center">Financial Statement Analysis</h1>
 
       {/* Sector Selection */}
-      <SectorsSelection
+      <SectorsSelection // Assuming SectorsSelection has an onSelect prop
       />
 
       {/* Financial Statement Indicator Selection */}
-      <FinancialStatementIndicatorSelection
+      <FinancialStatementIndicatorSelection // Assuming FinancialStatementIndicatorSelection has an onSelect prop
       />
 
       {/* Year Selection Dropdown */}
