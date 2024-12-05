@@ -1,20 +1,8 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { FaChartLine, FaDatabase, FaTrophy, FaFileAlt, FaChartBar, FaFlag, FaMoneyBillAlt } from "react-icons/fa";
+import { MdChevronLeft, MdChevronRight } from "react-icons/md"; // Import Chevron icons
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-// Define valid sidebar paths
-const sidebarPaths = [
-  "/FinancialMarketData",
-  "/FinancialStatementAnalysis",
-  "/KeyPerformanceIndicator",
-  "/EconomicData",
-  "/EconomicIndicator",
-  "/PoliticalIndicator",
-  "/FinancialIndicator",
-];
 
 export default function SideNavbar() {
   const [isOpen, setIsOpen] = useState(true);
@@ -42,31 +30,30 @@ export default function SideNavbar() {
     setOpenDropdown((prev) => (prev === section ? null : section));
   };
 
-  // Function to check if a link is active and restrict to sidebar paths
+  // Function to check if a link is active
   const isActive = (path: string) => {
-    console.log("Current Pathname:", pathname);
-    console.log("Checking Path:", path);
-    console.log("Is Active:", sidebarPaths.includes(pathname) && pathname === path);
-    return sidebarPaths.includes(pathname) && pathname === path;
+    return pathname === path; // Active only if pathname matches the path
   };
 
   return (
+    <div className="relative border-r border-gray-800 bg-gray-800 ">
     <aside
-      className={`${isOpen ? "w-90" : "w-24"} transition-all h-screen bg-gray-800 overflow-hidden sm:w-90 flex align-items-center`}
+      className={`${isOpen ? "w-90" : "w-24"} transition-all h-screen overflow-hidden sm:w-90 flex flex-col relative`} // Set to relative to move button inside the container
     >
       {/* Toggle Sidebar Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`absolute top-28 ${isOpen ? "left-[16rem]" : "left-20"} bg-white rounded-full p-2 text-2xl`}
+        className={`absolute top-28 transition-all bg-white rounded-full p-2 text-2xl`}
+        style={{
+          left: isOpen ? "calc(100% - 2.5rem)" : "calc(100% - 2.5rem)", // Dynamically adjust left based on sidebar state
+        }}
       >
-        {isOpen ? "<" : ">"}
+        {isOpen ? <MdChevronLeft /> : <MdChevronRight />} {/* Replace the icon with Chevron Left/Right */}
       </button>
 
       <div className="flex flex-col justify-start pl-4 mt-16 pt-28">
         {/* Dashboard Heading */}
-        <h2
-          className={`text-4xl text-white font-bold mb-4 ${isOpen ? "block" : "hidden"}`}
-        >
+        <h2 className={`text-4xl text-white font-bold mb-4 ${isOpen ? "block" : "hidden"}`}>
           Dashboard
         </h2>
 
@@ -78,9 +65,7 @@ export default function SideNavbar() {
               <Link
                 href="/FinancialMarketData"
                 className={`flex items-center p-2 hover:bg-black text-xl w-full rounded-lg ${
-                  openDropdown === "FinancialMarketData" || isActive("/FinancialMarketData")
-                    ? "text-blue-500 font-bold"
-                    : "text-white"
+                  isActive("/FinancialMarketData") ? "text-blue-500 font-bold" : "text-white"
                 }`}
               >
                 <FaDatabase className="mr-2 text-2xl" />
@@ -93,9 +78,7 @@ export default function SideNavbar() {
                 <Link
                   href="/FinancialStatementAnalysis"
                   className={`flex items-center p-2 hover:bg-black text-xl w-full rounded-lg ${
-                    isActive("/FinancialStatementAnalysis")
-                      ? "text-blue-500 font-bold"
-                      : "text-white"
+                    isActive("/FinancialStatementAnalysis") ? "text-blue-500 font-bold" : "text-white"
                   }`}
                 >
                   <FaFileAlt className="mr-2 text-2xl" />
@@ -104,9 +87,7 @@ export default function SideNavbar() {
                 <Link
                   href="/KeyPerformanceIndicator"
                   className={`flex items-center p-2 hover:bg-black text-xl w-full rounded-lg ${
-                    isActive("/KeyPerformanceIndicator")
-                      ? "text-blue-500 font-bold"
-                      : "text-white"
+                    isActive("/KeyPerformanceIndicator") ? "text-blue-500 font-bold" : "text-white"
                   }`}
                 >
                   <FaTrophy className="mr-2 text-2xl" />
@@ -122,9 +103,7 @@ export default function SideNavbar() {
               <Link
                 href="/EconomicData"
                 className={`flex items-center p-2 hover:bg-black text-xl w-full rounded-lg ${
-                  openDropdown === "EconomicData" || isActive("/EconomicData")
-                    ? "bg-gray-700 text-blue-500 font-bold"
-                    : "text-white"
+                  isActive("/EconomicData") ? "bg-gray-700 text-blue-500 font-bold" : "text-white"
                 }`}
               >
                 <FaChartLine className="mr-2 text-2xl" />
@@ -137,9 +116,7 @@ export default function SideNavbar() {
                 <Link
                   href="/EconomicIndicator"
                   className={`flex items-center p-2 hover:bg-black text-xl rounded-lg ${
-                    isActive("/EconomicIndicator")
-                      ? "bg-gray-700 text-blue-500 font-bold"
-                      : "text-white"
+                    isActive("/EconomicIndicator") ? "bg-gray-700 text-blue-500 font-bold" : "text-white"
                   }`}
                 >
                   <FaChartBar className="mr-2 text-2xl" />
@@ -148,9 +125,7 @@ export default function SideNavbar() {
                 <Link
                   href="/PoliticalIndicator"
                   className={`flex items-center p-2 hover:bg-black text-xl rounded-lg ${
-                    isActive("/PoliticalIndicator")
-                      ? "bg-gray-700 text-blue-500 font-bold"
-                      : "text-white"
+                    isActive("/PoliticalIndicator") ? "bg-gray-700 text-blue-500 font-bold" : "text-white"
                   }`}
                 >
                   <FaFlag className="mr-2 text-2xl" />
@@ -159,9 +134,7 @@ export default function SideNavbar() {
                 <Link
                   href="/FinancialIndicator"
                   className={`flex items-center p-2 hover:bg-black text-xl rounded-lg ${
-                    isActive("/FinancialIndicator")
-                      ? "bg-gray-700 text-blue-500 font-bold"
-                      : "text-white"
+                    isActive("/FinancialIndicator") ? "bg-gray-700 text-blue-500 font-bold" : "text-white"
                   }`}
                 >
                   <FaMoneyBillAlt className="mr-2 text-2xl" />
@@ -173,5 +146,6 @@ export default function SideNavbar() {
         </nav>
       </div>
     </aside>
+    </div>
   );
 }
