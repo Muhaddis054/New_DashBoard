@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import FinancialStatement from './FinancialStatementAnalysis';
+// import FinancialStatement from './FinancialStatementAnalysis';
 
 
 function FinancialStatementPage() {
@@ -8,7 +8,7 @@ function FinancialStatementPage() {
     <div className="p-8">
       <h1 className="text-4xl font-bold mb-6 text-center">Financial Statement Analysis</h1>
 
-    <FinancialStatement/>
+    {/* <FinancialStatement/> */}
     </div>
 
   );

@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import React, { useState } from "react";
 import IndicatorDropdown from "@/components/IndicatorDropdown";
 import { fetchEconomicData } from "@/components/EconomicDataInidcatorSelection/api";
@@ -28,31 +27,36 @@ ChartJS.register(
   Legend
 );
 
-// Define types for economic data and chart data
-type EconomicData = {
-  Years: number; // Year is a number
-  [key: string]: number | null; // Other keys are indicators, their values can be numbers or null
-};
+// Define the structure of the API response
+export interface EconomicData {
+  Years: number; // Assuming the response contains a "Years" key for labels
+  [key: string]: number | null; // Other keys are indicators with values being numbers, strings, or null
+}
 
+
+
+// Define types for chart data
 type ChartData = {
-  labels: string[]; // X-axis labels (years)
+  labels: string[];
   datasets: {
-    label: string; // Dataset name (indicator)
-    data: number[]; // Data points for the chart
-    fill: boolean; // Whether the dataset area should be filled
-    borderColor: string; // Border color of the dataset
-    tension: number; // Line tension for the chart
+    label: string;
+    data: number[];
+    fill: boolean;
+    borderColor: string;
+    tension: number;
   }[];
 };
 
+// Your EconomicIndicator component code
 const EconomicIndicator = () => {
-  const [year, setYear] = useState<string>("");
-  const [indicator, setIndicator] = useState<string>("");
-  const [group1Data, setGroup1Data] = useState<ChartData | null>(null);
-  const [group2Data, setGroup2Data] = useState<ChartData | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [year, setYear] = useState<string>(""); // Year selection
+  const [indicator, setIndicator] = useState<string>(""); // Indicator selection
+  const [group1Data, setGroup1Data] = useState<ChartData | null>(null); // Data for Group 1
+  const [group2Data, setGroup2Data] = useState<ChartData | null>(null); // Data for Group 2
+  const [loading, setLoading] = useState<boolean>(false); // Loading state
+  const [error, setError] = useState<string | null>(null); // Error state
 
+  // List of indicators for Group 1 and Group 2
   const group1Indicators = [
     "Poverty headcount ",
     "Unemployment Rate",
@@ -68,18 +72,27 @@ const EconomicIndicator = () => {
     "Current account balance (BoP, current US$)",
   ];
 
-  async function handleSubmit() {
-    setLoading(true);
-    setError(null);
 
-    try {
-      const result = await fetchEconomicData(year, indicator);
+ // Handle the submit button click
+// Handle the submit button click
+async function handleSubmit() {
+  setLoading(true); // Set loading state to true
+  setError(null); // Reset any previous errors
 
-      // Ensure result.data is an array of EconomicData
-      const data: EconomicData[] = result.data; // Ensure 'data' exists and is an array
+  try {
+    // Fetch the data from the API
+    const response = await fetchEconomicData(year, indicator);
+    
+    // Log the raw response to inspect its structure
+    console.log("Raw API Response:", response);
 
+    // Check if response is an object and contains a 'data' property
+    if (response && response.data && Array.isArray(response.data)) {
+      const data = response.data; // Now data is the array of economic data
+
+      // If "All" indicators are selected
       if (indicator === "All") {
-        const years = data.map((item) => item.Years.toString());
+        const years = data.map((item) => item.Years.toString()); // Extract years for the chart labels
 
         // Prepare datasets for Group 1 indicators
         const group1Datasets = group1Indicators.map((ind, index) => ({
@@ -102,7 +115,7 @@ const EconomicIndicator = () => {
         setGroup1Data({ labels: years, datasets: group1Datasets });
         setGroup2Data({ labels: years, datasets: group2Datasets });
       } else {
-        const years = data.map((item) => item.Years.toString());
+        const years = data.map((item) => item.Years.toString()); // Extract years for the chart labels
 
         // Prepare dataset for a single indicator
         const singleDataset = [
@@ -118,13 +131,22 @@ const EconomicIndicator = () => {
         setGroup1Data({ labels: years, datasets: singleDataset });
         setGroup2Data(null); // Clear Group 2 chart when displaying a single indicator
       }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred.");
-    } finally {
-      setLoading(false);
+    } else {
+      throw new Error("Invalid API response: Data is not an array or missing.");
     }
+  } catch (err) {
+    console.error("Error fetching data:", err);
+    setError(err instanceof Error ? err.message : "An error occurred.");
+  } finally {
+    setLoading(false); // Set loading state to false
   }
+}
 
+
+
+  
+  
+  
   return (
     <div className="p-8">
       <h1 className="text-4xl font-bold mb-6 text-center">Economic Indicators</h1>

@@ -70,65 +70,75 @@ const FinancialIndicator = () => {
     setError(null);
 
     try {
-      let result: ApiResponse;
-      if (indicator === "All") {
-        // Fetch data for each indicator when "All" is selected
-        const allData = await Promise.all(
-          allIndicators.map(async (ind) => {
-            return fetchEconomicData(year, ind);
-          })
-        );
+        let result: ApiResponse;
+        if (indicator === "All") {
+            // Fetch data for each indicator when "All" is selected
+            const allData: ApiResponse[] = await Promise.all(
+                allIndicators.map(async (ind) => {
+                    return fetchEconomicData(year, ind);
+                })
+            );
 
-        // Extract years from the first data set (assuming years are consistent across indicators)
-        const years = allData[0].data.map((item: EconomicData) => item.Years.toString());
+            console.log(allData); // Log the structure of allData
 
-        // Prepare datasets for each indicator
-        const combinedData = allData.map((res, index) => {
-          const indicatorData = res.data;
+            // Check if allData[0] and allData[0].data are defined and are arrays
+            if (!Array.isArray(allData[0]?.data)) {
+                throw new Error("Unexpected data format: data is not an array");
+            }
 
-          return {
-            label: allIndicators[index], // Set the label as the indicator name
-            data: indicatorData.map((item: EconomicData) => {
-              const indicatorValue = item[allIndicators[index]] ?? 0;
-              return Number(indicatorValue);
-            }), // Correct the mapping here
-            fill: false,
-            borderColor: `rgba(${(index + 1) * 50}, ${(index + 1) * 30}, 150, 1)`, // Dynamic color for each line
-            tension: 0.1,
-          };
-        });
+            // Extract years from the first data set (assuming years are consistent across indicators)
+            const years = allData[0].data.map((item: EconomicData) => item.Years.toString());
 
-        setData({
-          labels: years, // Use the years from the first indicator dataset
-          datasets: combinedData, // Use the combined data for all indicators
-        });
-      } else {
-        // Fetch data for a single indicator
-        result = await fetchEconomicData(year, indicator);
+            // Prepare datasets for each indicator
+            const combinedData = allData.map((res, index) => {
+                const { data: indicatorData } = res; // Destructure data property
 
-        setData({
-          labels: result.data.map((item: EconomicData) => item.Years.toString()), // Get years from the response
-          datasets: [
-            {
-              label: indicator,
-              data: result.data.map((item: EconomicData) => {
-                const indicatorValue = item[indicator] ?? 0;
-                return Number(indicatorValue);
-              }), // Ensure correct mapping here
-              fill: false,
-              borderColor: "rgba(75, 192, 192, 1)", // Default color for single indicator
-              tension: 0.1,
-            },
-          ],
-        });
-      }
+                return {
+                    label: allIndicators[index],
+                    data: indicatorData.map((item: EconomicData) => {
+                        const indicatorValue = item[allIndicators[index]] ?? 0;
+                        return Number(indicatorValue);
+                    }),
+                    fill: false,
+                    borderColor: `rgba(${(index + 1) * 50}, ${(index + 1) * 30}, 150, 1)`,
+                    tension: 0.1,
+                };
+            });
+
+            setData({
+                labels: years,
+                datasets: combinedData,
+            });
+        } else {
+            // Fetch data for a single indicator
+            result = await fetchEconomicData(year, indicator);
+
+            if (!Array.isArray(result.data)) {
+                throw new Error("Unexpected data format: data is not an array");
+            }
+
+            setData({
+                labels: result.data.map((item: EconomicData) => item.Years.toString()),
+                datasets: [
+                    {
+                        label: indicator,
+                        data: result.data.map((item: EconomicData) => {
+                            const indicatorValue = item[indicator] ?? 0;
+                            return Number(indicatorValue);
+                        }),
+                        fill: false,
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        tension: 0.1,
+                    },
+                ],
+            });
+        }
     } catch (err: unknown) {
-      setError((err as Error).message || "An unexpected error occurred.");
+        setError((err as Error).message || "An unexpected error occurred.");
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  }
-
+}
   // Prepare chart data
   const chartData = data ? data : null;
 

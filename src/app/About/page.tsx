@@ -54,7 +54,7 @@ export default function About() {
               alt="Team Member"
               width={150}
               height={150}
-              className="mx-auto rounded-full mb-4"
+              className="mx-auto rounded-full mb-4 bg-"
             />
             <h3 className="text-xl font-semibold">Alice Johnson</h3>
             <p className="text-gray-500">Lead Developer</p>
